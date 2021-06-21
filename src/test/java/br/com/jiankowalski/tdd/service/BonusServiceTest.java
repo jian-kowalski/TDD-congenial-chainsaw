@@ -1,6 +1,7 @@
 package br.com.jiankowalski.tdd.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,26 +13,24 @@ import br.com.jiankowalski.tdd.model.Funcionario;
 class BonusServiceTest {
 
     @Test
-    void bonusDeveriaSerZeroParaFuncionarioComSalarioMuitoAlto(){
-        BonusService service = new BonusService();    
-        var bonus = service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("25000") ));
+    void bonusDeveriaSerZeroParaFuncionarioComSalarioMuitoAlto() {
+        BonusService service = new BonusService();
+        var bonus = service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("25000")));
         assertEquals(new BigDecimal("0.00"), bonus);
     }
 
     @Test
-    void bonusDeveriaSerDezPorCentoDoSalario(){
-        BonusService service = new BonusService();    
-        var bonus = service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("2500") ));
-        assertEquals(new BigDecimal("250.00"), bonus);
+    void bonusDeveriaSerDezPorCentoDoSalario() {
+        BonusService service = new BonusService();
+        assertThrows(IllegalAccessException.class,
+                () -> service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("2500"))));
     }
 
     @Test
-    void bonusDeveriaSerDezPorCentoParaSalarioExatoDeDezMil(){
-        BonusService service = new BonusService();    
-        var bonus = service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("10000") ));
+    void bonusDeveriaSerDezPorCentoParaSalarioExatoDeDezMil() {
+        BonusService service = new BonusService();
+        var bonus = service.calcularBonus(new Funcionario("Jian", LocalDate.now(), new BigDecimal("10000")));
         assertEquals(new BigDecimal("1000.00"), bonus);
     }
-
-
 
 }
